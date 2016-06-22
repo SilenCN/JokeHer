@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_jokeher" default="compile.module.jokeher">
+  <dirname property="module.jokeher.basedir" file="${ant.file.module_jokeher}"/>
+  
+  <property name="module.jdk.home.jokeher" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.jokeher" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.jokeher" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.jokeher" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="jokeher.output.dir" value="${module.jokeher.basedir}/out/production/JokeHer"/>
+  <property name="jokeher.testoutput.dir" value="${module.jokeher.basedir}/out/test/JokeHer"/>
+  
+  <path id="jokeher.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="jokeher.module.production.classpath">
+    <path refid="${module.jdk.classpath.jokeher}"/>
+    <path refid="library.tomcat_7.0.56.classpath"/>
+    <path refid="library.gson-2.3.1.classpath"/>
+  </path>
+  
+  <path id="jokeher.runtime.production.module.classpath">
+    <pathelement location="${jokeher.output.dir}"/>
+    <path refid="library.gson-2.3.1.classpath"/>
+  </path>
+  
+  <path id="jokeher.module.classpath">
+    <path refid="${module.jdk.classpath.jokeher}"/>
+    <pathelement location="${jokeher.output.dir}"/>
+    <path refid="library.tomcat_7.0.56.classpath"/>
+    <path refid="library.gson-2.3.1.classpath"/>
+  </path>
+  
+  <path id="jokeher.runtime.module.classpath">
+    <pathelement location="${jokeher.testoutput.dir}"/>
+    <pathelement location="${jokeher.output.dir}"/>
+    <path refid="library.tomcat_7.0.56.classpath"/>
+    <path refid="library.gson-2.3.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.jokeher">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.jokeher">
+    <patternset refid="excluded.from.module.jokeher"/>
+  </patternset>
+  
+  <path id="jokeher.module.sourcepath">
+    <dirset dir="${module.jokeher.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.jokeher" depends="compile.module.jokeher.production,compile.module.jokeher.tests" description="Compile module JokeHer"/>
+  
+  <target name="compile.module.jokeher.production" depends="register.custom.compilers" description="Compile module JokeHer; production classes">
+    <mkdir dir="${jokeher.output.dir}"/>
+    <javac2 destdir="${jokeher.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.jokeher}/javac">
+      <compilerarg line="${compiler.args.jokeher}"/>
+      <bootclasspath refid="jokeher.module.bootclasspath"/>
+      <classpath refid="jokeher.module.production.classpath"/>
+      <src refid="jokeher.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.jokeher"/>
+    </javac2>
+    
+    <copy todir="${jokeher.output.dir}">
+      <fileset dir="${module.jokeher.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.jokeher.tests" depends="register.custom.compilers,compile.module.jokeher.production" description="compile module JokeHer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.jokeher" description="cleanup module">
+    <delete dir="${jokeher.output.dir}"/>
+    <delete dir="${jokeher.testoutput.dir}"/>
+  </target>
+</project>

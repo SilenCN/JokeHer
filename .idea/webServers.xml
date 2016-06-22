@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="faf40f68-9f42-433a-ab99-0f0950e23cda" name="tencent/www_silen_dev_top" url="http://123.206.210.84">
+        <fileTransfer host="123.206.210.84" port="21" rootFolder="/var/www/www_silen_dev_top" password="dfc6dfc3df98df99df9adf98df92df99df92df99df9adf9d" username="silen">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
