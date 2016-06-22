@@ -26,7 +26,8 @@ public class GetHotJokeServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             int sortToken = Integer.parseInt(req.getParameterValues("sortToken")[0]);
-            resp.getWriter().write(new Gson().toJson(JokeService.getHotJokes(sortToken)));
+            int userId=Integer.parseInt(req.getParameterValues("userId")[0]);
+            resp.getWriter().write(new Gson().toJson(JokeService.getHotJokes(sortToken,userId)));
         }catch (Exception e){
             e.printStackTrace();
         }

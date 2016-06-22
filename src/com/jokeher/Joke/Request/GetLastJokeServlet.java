@@ -25,8 +25,9 @@ public class GetLastJokeServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            int userId=Integer.parseInt(req.getParameterValues("userId")[0]);
             long lastJokeTime = Long.parseLong(req.getParameterValues("time")[0]);
-            resp.getWriter().write(new Gson().toJson(JokeService.getLastJokes(lastJokeTime)));
+            resp.getWriter().write(new Gson().toJson(JokeService.getLastJokes(lastJokeTime,userId)));
         } catch (Exception e) {
             e.printStackTrace();
         }

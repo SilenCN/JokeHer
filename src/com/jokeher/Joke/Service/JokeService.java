@@ -12,17 +12,16 @@ import java.util.Map;
 public class JokeService {
 
     private static final String ADD_NEW_JOKE_SQL = "INSERT INTO Joke(userId,content,isFunny,isBoring,time,publish) VALUES(%d,\'%s\',0,0,%d,%b)";
-    private static final String GET_LAST_JOKE_SQL = "SELECT * FROM Joke WHERE time<%d AND publish=1 ORDER BY time ASC LIMIT 20";
+    private static final String GET_LAST_JOKE_SQL = "SELECT * FROM Joke,Joke WHERE time<%d AND publish=1 ORDER BY time ASC LIMIT 20";
     private static final String GET_HOT_JOKE_SQL="SELECT * FROM Joke ORDER BY isFunny ASC LIMIT %d,%d";
-
 
     public static boolean addNewJoke(Joke joke){
         return new SQLBase().executeSQL(String.format(ADD_NEW_JOKE_SQL,new Object[]{joke.getUserId(),joke.getContent(),joke.getTime(),joke.isPublish()}));
     }
-    public static List<Map<String,Object>> getLastJokes(Long lastJokeTime){
+    public static List<Map<String,Object>> getLastJokes(Long lastJokeTime,int userId){
         return new SQLBase().queryDateWithReturn(String.format(GET_LAST_JOKE_SQL,new Object[]{lastJokeTime}));
     }
-    public static List<Map<String,Object>> getHotJokes(int sortToken){
+    public static List<Map<String,Object>> getHotJokes(int sortToken,int userId){
         return new SQLBase().queryDateWithReturn(String.format(GET_HOT_JOKE_SQL,new Object[]{sortToken,sortToken+20}));
     }
 
